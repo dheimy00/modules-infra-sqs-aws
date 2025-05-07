@@ -1,3 +1,9 @@
+variable "aws_region" {
+  description = "The AWS region to deploy the SQS queues"
+  type        = string
+  default     = "us-east-1"
+}
+
 variable "queue_name" {
   description = "The name of the SQS queue"
   type        = string

@@ -65,6 +65,7 @@ module "my_sqs_queue" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| aws_region | The AWS region to deploy the SQS queues | `string` | `"us-east-1"` | no |
 | queue_name | The name of the SQS queue | `string` | n/a | yes |
 | project_name | The name of the project | `string` | n/a | yes |
 | visibility_timeout_seconds | The visibility timeout for the queue | `number` | `30` | no |
@@ -87,6 +88,8 @@ module "my_sqs_queue" {
 | dlq_url | The URL of the created Dead Letter Queue |
 | main_queue_arn | The ARN of the created main SQS queue |
 | dlq_arn | The ARN of the created Dead Letter Queue |
+| main_queue_name | The name of the created main SQS queue |
+| dlq_name | The name of the created Dead Letter Queue |
 
 ## Default Values
 
