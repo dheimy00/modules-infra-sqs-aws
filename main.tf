@@ -4,10 +4,14 @@ resource "aws_sqs_queue" "main" {
   visibility_timeout_seconds = var.visibility_timeout_seconds
   max_message_size           = var.max_message_size
   message_retention_seconds  = var.message_retention_seconds
-  delay_seconds              = var.delay_seconds
-  receive_wait_time_seconds  = var.receive_wait_time_seconds
-  kms_master_key_id         = var.kms_key_id
-  sqs_managed_sse_enabled   = var.sqs_managed_sse_enabled
+  kms_master_key_id          = var.kms_key_id
+  sqs_managed_sse_enabled    = var.sqs_managed_sse_enabled
+
+  # Only set delay_seconds if it's not 0
+  delay_seconds = var.delay_seconds != 0 ? var.delay_seconds : null
+
+  # Only set receive_wait_time_seconds if it's not 0
+  receive_wait_time_seconds = var.receive_wait_time_seconds != 0 ? var.receive_wait_time_seconds : null
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.dlq.arn
@@ -28,8 +32,8 @@ resource "aws_sqs_queue" "dlq" {
   name                       = "${var.queue_name}-dlq"
   visibility_timeout_seconds = var.visibility_timeout_seconds
   message_retention_seconds  = var.dlq_message_retention_seconds
-  kms_master_key_id         = var.kms_key_id
-  sqs_managed_sse_enabled   = var.sqs_managed_sse_enabled
+  kms_master_key_id          = var.kms_key_id
+  sqs_managed_sse_enabled    = var.sqs_managed_sse_enabled
 
   tags = merge(
     var.tags,
